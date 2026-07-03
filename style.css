@@ -652,3 +652,30 @@ footer{
     line-height:1.7;
     margin:15px 0 25px;
 }
+/* ===========================
+   JavaScript Animations
+=========================== */
+
+.navbar.scrolled{
+    box-shadow:0 8px 25px rgba(0,0,0,.35);
+    backdrop-filter:blur(12px);
+}
+
+.hidden{
+    opacity:0;
+    transform:translateY(40px);
+    transition:all .7s ease;
+}
+
+.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+.nav-links a.active{
+    color:#7C5CFF;
+}
+
+html{
+    scroll-behavior:smooth;
+}
