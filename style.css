@@ -613,3 +613,42 @@ footer{
 .service-card .btn-primary{
     display:inline-block;
 }
+/* ===========================
+   Platform Logo Images
+=========================== */
+
+.service-icon{
+    width:80px;
+    height:80px;
+    margin:0 auto 20px;
+    border-radius:22px;
+    background:#181d31;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
+    transition:.35s;
+}
+
+.service-icon img{
+    width:52px;
+    height:52px;
+    object-fit:contain;
+}
+
+.service-card:hover .service-icon{
+    transform:translateY(-8px) scale(1.08);
+    box-shadow:0 15px 35px rgba(108,92,231,.45);
+}
+
+.service-card h3{
+    margin-top:15px;
+    font-size:26px;
+    font-weight:700;
+}
+
+.service-card p{
+    color:#A8B2D1;
+    line-height:1.7;
+    margin:15px 0 25px;
+}
