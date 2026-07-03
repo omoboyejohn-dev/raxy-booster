@@ -1,0 +1,128 @@
+/* ==========================
+   RAXY BOOSTER
+========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:#0B1120;
+    color:#FFFFFF;
+}
+
+/* NAVBAR */
+
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 8%;
+    background:#111827;
+    position:sticky;
+    top:0;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    text-decoration:none;
+}
+
+.logo-icon{
+    font-size:38px;
+}
+
+.logo-text h2{
+    font-size:24px;
+    background:linear-gradient(90deg,#2563EB,#7C3AED);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.logo-text p{
+    font-size:12px;
+    color:#CBD5E1;
+}
+
+.nav-links{
+    display:flex;
+    gap:30px;
+    list-style:none;
+}
+
+.nav-links a{
+    color:white;
+    text-decoration:none;
+}
+
+.nav-buttons{
+    display:flex;
+    gap:15px;
+}
+
+.login-btn{
+    color:white;
+    text-decoration:none;
+    border:1px solid #2563EB;
+    padding:10px 20px;
+    border-radius:8px;
+}
+
+.signup-btn{
+    color:white;
+    text-decoration:none;
+    padding:10px 20px;
+    border-radius:8px;
+    background:linear-gradient(90deg,#2563EB,#7C3AED);
+}
+
+/* HERO */
+
+.hero{
+    min-height:90vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:40px;
+    background:linear-gradient(135deg,#0B1120,#111827,#1E3A8A);
+}
+
+.hero-content{
+    max-width:850px;
+}
+
+.hero h1{
+    font-size:60px;
+    margin-bottom:20px;
+}
+
+.hero p{
+    font-size:20px;
+    color:#CBD5E1;
+    margin-bottom:35px;
+    line-height:1.7;
+}
+
+.hero-btn{
+    display:inline-block;
+    text-decoration:none;
+    color:white;
+    padding:16px 40px;
+    border-radius:10px;
+    background:linear-gradient(90deg,#2563EB,#7C3AED);
+    font-weight:600;
+}
+
+.hero-btn:hover{
+    opacity:.9;
+}
