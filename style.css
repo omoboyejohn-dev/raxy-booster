@@ -675,3 +675,96 @@ html{
         transform:translateY(-12px);
     }
 }
+
+/* ==========================
+   SERVICES PAGE
+========================== */
+
+.page-hero{
+    padding:120px 20px 80px;
+    text-align:center;
+    background:linear-gradient(135deg,#0b1120,#111827);
+}
+
+.page-hero h1{
+    font-size:48px;
+    color:#fff;
+    margin-bottom:20px;
+}
+
+.page-hero p{
+    max-width:700px;
+    margin:auto;
+    color:#b8c1d9;
+    font-size:18px;
+    line-height:1.8;
+}
+
+.services{
+    padding:80px 0;
+}
+
+.services-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:30px;
+}
+
+.service-card{
+    background:#111827;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:20px;
+    padding:35px 25px;
+    text-align:center;
+    transition:.35s;
+}
+
+.service-card:hover{
+    transform:translateY(-10px);
+    border-color:#3b82f6;
+    box-shadow:0 20px 40px rgba(59,130,246,.25);
+}
+
+.service-card img{
+    width:70px;
+    height:70px;
+    object-fit:contain;
+    margin-bottom:20px;
+}
+
+.service-card h3{
+    color:#fff;
+    margin-bottom:15px;
+}
+
+.service-card p{
+    color:#cbd5e1;
+    line-height:1.7;
+    margin-bottom:25px;
+}
+
+.cta{
+    padding:100px 20px;
+    text-align:center;
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
+}
+
+.cta h2{
+    color:#fff;
+    font-size:40px;
+    margin-bottom:20px;
+}
+
+.cta p{
+    color:#eef2ff;
+    max-width:700px;
+    margin:0 auto 35px;
+    line-height:1.8;
+}
+
+footer{
+    padding:35px;
+    text-align:center;
+    border-top:1px solid rgba(255,255,255,.08);
+    color:#94a3b8;
+}
