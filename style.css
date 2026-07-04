@@ -649,3 +649,29 @@ html{
         padding: 30px 20px;
     }
 }
+
+/* Hero Logo */
+
+.hero-image{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-bottom:35px;
+}
+
+.hero-logo{
+    width:220px;
+    max-width:100%;
+    height:auto;
+    animation:float 4s ease-in-out infinite;
+    filter:drop-shadow(0 15px 35px rgba(124,92,255,.45));
+}
+
+@keyframes float{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-12px);
+    }
+}
