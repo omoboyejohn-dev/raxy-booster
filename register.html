@@ -2,14 +2,12 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Create Account | RAXY BOOSTER</title>
 
 <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
@@ -24,50 +22,70 @@
 
 <p>Join thousands of users growing their social media.</p>
 
-<form>
+<form id="registerForm">
 
-<input type="text" placeholder="Full Name" required>
+<input
+type="text"
+id="fullName"
+placeholder="Full Name"
+required>
 
-<input type="text" placeholder="Username" required>
+<input
+type="text"
+id="username"
+placeholder="Username"
+required>
 
-<input type="email" placeholder="Email Address" required>
+<input
+type="email"
+id="email"
+placeholder="Email Address"
+required>
 
-<input type="tel" placeholder="Phone Number">
+<input
+type="tel"
+id="phone"
+placeholder="Phone Number">
 
-<input type="password" placeholder="Password" required>
+<input
+type="password"
+id="password"
+placeholder="Password"
+required>
 
-<input type="password" placeholder="Confirm Password" required>
+<input
+type="password"
+id="confirmPassword"
+placeholder="Confirm Password"
+required>
 
-<input type="text" placeholder="Referral Code (Optional)">
+<input
+type="text"
+id="referral"
+placeholder="Referral Code (Optional)">
 
-<button type="submit" class="primary-btn auth-btn">
-
+<button
+type="submit"
+class="primary-btn auth-btn">
 Create Account
-
 </button>
 
 </form>
 
 <p class="auth-link">
-
 Already have an account?
-
 <a href="login.html">Login</a>
-
 </p>
 
 <a href="index.html" class="back-home">
-
 ← Back to Home
-
 </a>
 
 </div>
 
 </div>
 
-<script src="app.js"></script>
+<script type="module" src="app.js"></script>
 
 </body>
-
 </html>
