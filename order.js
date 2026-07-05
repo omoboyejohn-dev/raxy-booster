@@ -1,6 +1,8 @@
 import { auth, db } from "./firebase.js";
 
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+import {
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 
 import {
     doc,
@@ -10,11 +12,17 @@ import {
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 
-// Get service ID from URL
+// =============================
+// Get Service ID
+// =============================
+
 const params = new URLSearchParams(window.location.search);
 const serviceId = params.get("id");
 
+// =============================
 // HTML Elements
+// =============================
+
 const serviceName = document.getElementById("serviceName");
 const servicePlatform = document.getElementById("servicePlatform");
 const servicePrice = document.getElementById("servicePrice");
@@ -23,10 +31,21 @@ const orderForm = document.getElementById("orderForm");
 const orderLink = document.getElementById("orderLink");
 const orderQuantity = document.getElementById("orderQuantity");
 
+const submitBtn = orderForm
+    ? orderForm.querySelector("button[type='submit']")
+    : null;
+
+// =============================
+// Variables
+// =============================
+
 let currentUser = null;
 let currentService = null;
 
-// Protect page
+// =============================
+// Protect Page
+// =============================
+
 onAuthStateChanged(auth, async (user) => {
 
     if (!user) {
@@ -37,7 +56,7 @@ onAuthStateChanged(auth, async (user) => {
     currentUser = user;
 
     if (!serviceId) {
-        alert("Service not found.");
+        alert("Invalid service.");
         window.location.replace("dashboard.html");
         return;
     }
@@ -46,7 +65,10 @@ onAuthStateChanged(auth, async (user) => {
 
 });
 
-// Load selected service
+// =============================
+// Load Service
+// =============================
+
 async function loadService() {
 
     try {
@@ -55,69 +77,99 @@ async function loadService() {
         const serviceSnap = await getDoc(serviceRef);
 
         if (!serviceSnap.exists()) {
+
             alert("Service not found.");
             window.location.replace("dashboard.html");
             return;
+
         }
 
         currentService = serviceSnap.data();
 
-        serviceName.textContent = currentService.name;
-        servicePlatform.textContent = currentService.platform;
-        servicePrice.textContent = `₦${currentService.price}`;
+        if (serviceName)
+            serviceName.textContent = currentService.name;
+
+        if (servicePlatform)
+            servicePlatform.textContent = currentService.platform;
+
+        if (servicePrice)
+            servicePrice.textContent = `₦${currentService.price}`;
 
     } catch (error) {
 
-        console.error(error);
-        alert("Failed to load service.");
+        console.error("Load Service Error:", error);
+        alert("Unable to load service.");
 
     }
 
 }
 
+// =============================
 // Place Order
-orderForm.addEventListener("submit", async (e) => {
+// =============================
 
-    e.preventDefault();
+if (orderForm) {
 
-    const link = orderLink.value.trim();
-    const quantity = Number(orderQuantity.value);
+    orderForm.addEventListener("submit", async (e) => {
 
-    if (!link || quantity <= 0) {
-        alert("Please complete all fields.");
-        return;
-    }
+        e.preventDefault();
 
-    try {
+        if (!currentUser || !currentService) {
+            alert("Please wait while the service loads.");
+            return;
+        }
 
-        await addDoc(collection(db, "orders"), {
+        const link = orderLink.value.trim();
+        const quantity = Number(orderQuantity.value);
 
-            userId: currentUser.uid,
-            userEmail: currentUser.email,
+        if (!link || isNaN(quantity) || quantity < 1) {
+            alert("Please enter a valid link and quantity.");
+            return;
+        }
 
-            serviceId: serviceId,
-            serviceName: currentService.name,
-            platform: currentService.platform,
-            price: Number(currentService.price),
+        try {
 
-            link: link,
-            quantity: quantity,
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = "Placing Order...";
+            }
 
-            status: "Pending",
+            await addDoc(collection(db, "orders"), {
 
-            createdAt: serverTimestamp()
+                userId: currentUser.uid,
+                userEmail: currentUser.email,
 
-        });
+                serviceId: serviceId,
+                serviceName: currentService.name,
+                platform: currentService.platform,
+                price: Number(currentService.price),
 
-        alert("Order placed successfully!");
+                link: link,
+                quantity: quantity,
 
-        window.location.href = "dashboard.html";
+                status: "Pending",
 
-    } catch (error) {
+                createdAt: serverTimestamp()
 
-        console.error(error);
-        alert("Failed to place order.");
+            });
 
-    }
+            alert("Order placed successfully!");
 
-});
+            window.location.replace("dashboard.html");
+
+        } catch (error) {
+
+            console.error("Order Error:", error);
+
+            alert("Failed to place order. Please try again.");
+
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Place Order";
+            }
+
+        }
+
+    });
+
+}
