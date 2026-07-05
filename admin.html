@@ -1,32 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel - Raxy Booster</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAXY BOOSTER | Admin Panel</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <h1>🛠 Admin Panel</h1>
+    <div class="container">
 
-  <h3>Add New Service</h3>
+        <header class="admin-header">
+            <h1>🛠 RAXY BOOSTER ADMIN PANEL</h1>
+            <p>Manage all boosting services from one place.</p>
 
-  <form id="serviceForm">
-    <input type="text" id="name" placeholder="Service Name" required>
-    <input type="text" id="platform" placeholder="Platform (TikTok, Instagram...)" required>
-    <input type="number" id="price" placeholder="Price" required>
-    <button type="submit">Add Service</button>
-  </form>
+            <button id="logoutBtn">Logout</button>
+        </header>
 
-  <hr>
+        <hr>
 
-  <h3>Services List</h3>
-  <div id="servicesList"></div>
+        <section class="admin-form">
 
-  <!-- Scripts -->
-  <script type="module" src="admin.js"></script>
-  <script type="module" src="admin-guard.js"></script>
+            <h2>Add New Service</h2>
+
+            <form id="serviceForm">
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Service Name (e.g. Instagram Followers)"
+                    required>
+
+                <input
+                    type="text"
+                    id="platform"
+                    placeholder="Platform (Instagram, TikTok, YouTube...)"
+                    required>
+
+                <input
+                    type="number"
+                    id="price"
+                    placeholder="Price (₦)"
+                    required>
+
+                <button type="submit">
+                    Add Service
+                </button>
+
+            </form>
+
+        </section>
+
+        <hr>
+
+        <section class="services-section">
+
+            <h2>Available Services</h2>
+
+            <div id="servicesList">
+
+                <p>No services yet...</p>
+
+            </div>
+
+        </section>
+
+    </div>
+
+    <!-- JavaScript -->
+    <script type="module" src="admin.js"></script>
+    <script type="module" src="admin-guard.js"></script>
 
 </body>
+
 </html>
