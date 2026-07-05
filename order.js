@@ -5,170 +5,95 @@ import {
 } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 
 import {
-    doc,
-    getDoc,
     collection,
-    addDoc,
-    serverTimestamp
+    query,
+    where,
+    orderBy,
+    onSnapshot
 } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 
-// =============================
-// Get Service ID
-// =============================
+const ordersList = document.getElementById("ordersList");
 
-const params = new URLSearchParams(window.location.search);
-const serviceId = params.get("id");
-
-// =============================
-// HTML Elements
-// =============================
-
-const serviceName = document.getElementById("serviceName");
-const servicePlatform = document.getElementById("servicePlatform");
-const servicePrice = document.getElementById("servicePrice");
-
-const orderForm = document.getElementById("orderForm");
-const orderLink = document.getElementById("orderLink");
-const orderQuantity = document.getElementById("orderQuantity");
-
-const submitBtn = orderForm
-    ? orderForm.querySelector("button[type='submit']")
-    : null;
-
-// =============================
-// Variables
-// =============================
-
-let currentUser = null;
-let currentService = null;
-
-// =============================
-// Protect Page
-// =============================
-
-onAuthStateChanged(auth, async (user) => {
+// Protect page
+onAuthStateChanged(auth, (user) => {
 
     if (!user) {
         window.location.replace("login.html");
         return;
     }
 
-    currentUser = user;
-
-    if (!serviceId) {
-        alert("Invalid service.");
-        window.location.replace("dashboard.html");
-        return;
-    }
-
-    await loadService();
+    loadOrders(user);
 
 });
 
-// =============================
-// Load Service
-// =============================
+function loadOrders(user) {
 
-async function loadService() {
+    const ordersRef = collection(db, "orders");
 
-    try {
+    const q = query(
+        ordersRef,
+        where("userId", "==", user.uid),
+        orderBy("createdAt", "desc")
+    );
 
-        const serviceRef = doc(db, "services", serviceId);
-        const serviceSnap = await getDoc(serviceRef);
+    onSnapshot(q, (snapshot) => {
 
-        if (!serviceSnap.exists()) {
+        ordersList.innerHTML = "";
 
-            alert("Service not found.");
-            window.location.replace("dashboard.html");
-            return;
+        if (snapshot.empty) {
 
-        }
+            ordersList.innerHTML = `
+                <p style="text-align:center;">
+                    You haven't placed any orders yet.
+                </p>
+            `;
 
-        currentService = serviceSnap.data();
-
-        if (serviceName)
-            serviceName.textContent = currentService.name;
-
-        if (servicePlatform)
-            servicePlatform.textContent = currentService.platform;
-
-        if (servicePrice)
-            servicePrice.textContent = `₦${currentService.price}`;
-
-    } catch (error) {
-
-        console.error("Load Service Error:", error);
-        alert("Unable to load service.");
-
-    }
-
-}
-
-// =============================
-// Place Order
-// =============================
-
-if (orderForm) {
-
-    orderForm.addEventListener("submit", async (e) => {
-
-        e.preventDefault();
-
-        if (!currentUser || !currentService) {
-            alert("Please wait while the service loads.");
             return;
         }
 
-        const link = orderLink.value.trim();
-        const quantity = Number(orderQuantity.value);
+        snapshot.forEach((doc) => {
 
-        if (!link || isNaN(quantity) || quantity < 1) {
-            alert("Please enter a valid link and quantity.");
-            return;
-        }
+            const order = doc.data();
 
-        try {
+            let date = "Just now";
 
-            if (submitBtn) {
-                submitBtn.disabled = true;
-                submitBtn.textContent = "Placing Order...";
+            if (order.createdAt) {
+                date = order.createdAt.toDate().toLocaleString();
             }
 
-            await addDoc(collection(db, "orders"), {
+            ordersList.innerHTML += `
 
-                userId: currentUser.uid,
-                userEmail: currentUser.email,
+                <div class="service-card">
 
-                serviceId: serviceId,
-                serviceName: currentService.name,
-                platform: currentService.platform,
-                price: Number(currentService.price),
+                    <h3>${order.serviceName}</h3>
 
-                link: link,
-                quantity: quantity,
+                    <p><strong>Platform:</strong> ${order.platform}</p>
 
-                status: "Pending",
+                    <p><strong>Quantity:</strong> ${order.quantity}</p>
 
-                createdAt: serverTimestamp()
+                    <p><strong>Price:</strong> ₦${order.price}</p>
 
-            });
+                    <p><strong>Link:</strong> ${order.link}</p>
 
-            alert("Order placed successfully!");
+                    <p><strong>Status:</strong> ${order.status}</p>
 
-            window.location.replace("dashboard.html");
+                    <p><strong>Date:</strong> ${date}</p>
 
-        } catch (error) {
+                </div>
 
-            console.error("Order Error:", error);
+            `;
 
-            alert("Failed to place order. Please try again.");
+        });
 
-            if (submitBtn) {
-                submitBtn.disabled = false;
-                submitBtn.textContent = "Place Order";
-            }
+    }, (error) => {
 
-        }
+        console.error(error);
+
+        ordersList.innerHTML = `
+            <p style="color:red;text-align:center;">
+                Failed to load orders.
+            </p>
+        `;
 
     });
 
