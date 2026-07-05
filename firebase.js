@@ -1,8 +1,11 @@
 // Import Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+
 import { getAuth } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 
-// Your Firebase configuration
+import { getFirestore } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyC_-MVpov7-MZKxGegsqvrbB4_a3a0WGHM",
   authDomain: "raxy-booster.firebaseapp.com",
@@ -15,7 +18,12 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+// Initialize Authentication
 const auth = getAuth(app);
 
-// Export Auth
-export { auth };
+// Initialize Firestore
+const db = getFirestore(app);
+
+// Export
+export { auth, db };
