@@ -1,1 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Dashboard | RAXY BOOSTER</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <header class="dashboard-header">
+
+        <h1>RAXY BOOSTER</h1>
+
+        <button id="logoutBtn" class="btn-danger">
+            Logout
+        </button>
+
+    </header>
+
+    <section class="welcome-card">
+
+        <h2>Welcome 👋</h2>
+
+        <p id="userEmail">Loading...</p>
+
+    </section>
+
+    <section class="wallet-card">
+
+        <h3>Wallet Balance</h3>
+
+        <h1>₦0.00</h1>
+
+        <div class="dashboard-buttons">
+
+            <button class="btn-primary">
+                Fund Wallet
+            </button>
+
+            <button class="btn-primary">
+                Place Order
+            </button>
+
+        </div>
+
+    </section>
+
+    <section class="orders-card">
+
+        <h3>Recent Orders</h3>
+
+        <p>No orders yet.</p>
+
+    </section>
+
+</div>
+
+<script type="module" src="dashboard.js"></script>
+
+</body>
+</html>
