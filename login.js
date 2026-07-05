@@ -18,7 +18,7 @@ form.addEventListener("submit", async (e) => {
 
         alert("Login successful!");
 
-        window.location.href = "services.html";
+        window.location.href = "dashboard.html";
 
     } catch (error) {
 
