@@ -1,9 +1,15 @@
-import { auth } from "./firebase.js";
+import { auth, db } from "./firebase.js";
 
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+
+import {
+  doc,
+  setDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 
 // Redirect if already logged in
 onAuthStateChanged(auth, (user) => {
@@ -32,9 +38,24 @@ if (form) {
     button.textContent = "Creating Account...";
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
 
-      // Redirect immediately
+      // Create Firebase Authentication account
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      const user = userCredential.user;
+
+      // Save user data to Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        email: user.email,
+        wallet: 0,
+        totalOrders: 0,
+        createdAt: serverTimestamp()
+      });
+
       window.location.replace("dashboard.html");
 
     } catch (error) {
