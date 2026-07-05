@@ -8,7 +8,12 @@ import {
 const email = document.getElementById("userEmail");
 const logoutBtn = document.getElementById("logoutBtn");
 
-// Protect the page
+const fundWalletBtn = document.getElementById("fundWalletBtn");
+const placeOrderBtn = document.getElementById("placeOrderBtn");
+const orderHistoryBtn = document.getElementById("orderHistoryBtn");
+const profileBtn = document.getElementById("profileBtn");
+
+// Protect dashboard
 onAuthStateChanged(auth, (user) => {
 
     if (!user) {
@@ -27,4 +32,22 @@ logoutBtn.addEventListener("click", async () => {
 
     window.location.replace("login.html");
 
+});
+
+// Dashboard buttons
+
+fundWalletBtn.addEventListener("click", () => {
+    window.location.href = "fund-wallet.html";
+});
+
+placeOrderBtn.addEventListener("click", () => {
+    window.location.href = "services.html";
+});
+
+orderHistoryBtn.addEventListener("click", () => {
+    window.location.href = "orders.html";
+});
+
+profileBtn.addEventListener("click", () => {
+    window.location.href = "profile.html";
 });
