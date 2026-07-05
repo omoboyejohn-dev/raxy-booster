@@ -1,7 +1,16 @@
 import { auth } from "./firebase.js";
+
 import {
-  createUserWithEmailAndPassword
+  createUserWithEmailAndPassword,
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+
+// Redirect if already logged in
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    window.location.href = "services.html";
+  }
+});
 
 const form = document.getElementById("registerForm");
 
@@ -26,7 +35,25 @@ if (form) {
       window.location.href = "login.html";
 
     } catch (error) {
-      alert(error.code + "\n" + error.message);
+
+      switch (error.code) {
+
+        case "auth/email-already-in-use":
+          alert("This email is already registered.");
+          break;
+
+        case "auth/invalid-email":
+          alert("Please enter a valid email address.");
+          break;
+
+        case "auth/weak-password":
+          alert("Password must be at least 6 characters.");
+          break;
+
+        default:
+          alert(error.message);
+      }
+
     }
   });
 }
