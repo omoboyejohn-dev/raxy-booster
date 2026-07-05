@@ -2,7 +2,8 @@ import { auth, db } from "./firebase.js";
 
 import {
   createUserWithEmailAndPassword,
-  onAuthStateChanged
+  onAuthStateChanged,
+  updateProfile
 } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 
 import {
@@ -34,12 +35,13 @@ if (form) {
     }
 
     const button = form.querySelector("button");
+
     button.disabled = true;
     button.textContent = "Creating Account...";
 
     try {
 
-      // Create Firebase Authentication account
+      // Create Authentication account
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -48,11 +50,18 @@ if (form) {
 
       const user = userCredential.user;
 
-      // Save user data to Firestore
+      // Optional: update display name later if you add a name field
+      await updateProfile(user, {
+        displayName: ""
+      });
+
+      // Save user in Firestore
       await setDoc(doc(db, "users", user.uid), {
+        uid: user.uid,
         email: user.email,
         wallet: 0,
         totalOrders: 0,
+        status: "Active",
         createdAt: serverTimestamp()
       });
 
@@ -60,10 +69,8 @@ if (form) {
 
     } catch (error) {
 
-      button.disabled = false;
-      button.textContent = "Create Account";
-
       switch (error.code) {
+
         case "auth/email-already-in-use":
           alert("This email is already registered.");
           break;
@@ -78,7 +85,11 @@ if (form) {
 
         default:
           alert(error.message);
+
       }
+
+      button.disabled = false;
+      button.textContent = "Create Account";
     }
   });
 }
