@@ -12,6 +12,7 @@ import {
   signOut
 } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 
+// Elements
 const form = document.getElementById("serviceForm");
 const list = document.getElementById("servicesList");
 const logoutBtn = document.getElementById("logoutBtn");
@@ -20,10 +21,16 @@ const logoutBtn = document.getElementById("logoutBtn");
 // LOAD SERVICES
 // ===============================
 async function loadServices() {
-  list.innerHTML = "";
+
+  if (!list) return;
+
+  list.innerHTML = "<p>Loading services...</p>";
 
   try {
+
     const snapshot = await getDocs(collection(db, "services"));
+
+    list.innerHTML = "";
 
     if (snapshot.empty) {
       list.innerHTML = "<p>No services available.</p>";
@@ -31,94 +38,129 @@ async function loadServices() {
     }
 
     snapshot.forEach((item) => {
+
       const data = item.data();
 
-      const div = document.createElement("div");
+      const card = document.createElement("div");
 
-      div.innerHTML = `
-        <div style="border:1px solid #ddd;padding:10px;margin-bottom:10px;border-radius:8px;">
-          <h3>${data.name}</h3>
-          <p><strong>Platform:</strong> ${data.platform}</p>
-          <p><strong>Price:</strong> ₦${data.price}</p>
-          <button onclick="deleteService('${item.id}')">
-            Delete
-          </button>
-        </div>
+      card.className = "service-card";
+
+      card.innerHTML = `
+        <h3>${data.name}</h3>
+        <p><strong>Platform:</strong> ${data.platform}</p>
+        <p><strong>Price:</strong> ₦${data.price}</p>
+
+        <button class="delete-btn" data-id="${item.id}">
+          Delete
+        </button>
+
+        <hr>
       `;
 
-      list.appendChild(div);
+      list.appendChild(card);
+    });
+
+    // Delete buttons
+    document.querySelectorAll(".delete-btn").forEach((button) => {
+
+      button.addEventListener("click", async () => {
+
+        const id = button.dataset.id;
+
+        if (!confirm("Delete this service?")) return;
+
+        try {
+
+          await deleteDoc(doc(db, "services", id));
+
+          alert("Service deleted.");
+
+          loadServices();
+
+        } catch (error) {
+
+          alert(error.message);
+
+        }
+
+      });
+
     });
 
   } catch (error) {
+
+    list.innerHTML = "<p>Failed to load services.</p>";
+
     alert(error.message);
+
   }
+
 }
 
 // ===============================
 // ADD SERVICE
 // ===============================
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
+if (form) {
 
-  try {
+  form.addEventListener("submit", async (e) => {
 
-    const name = document.getElementById("name").value.trim();
-    const platform = document.getElementById("platform").value.trim();
-    const price = Number(document.getElementById("price").value);
+    e.preventDefault();
 
-    await addDoc(collection(db, "services"), {
-      name,
-      platform,
-      price
-    });
+    try {
 
-    alert("Service added successfully!");
+      const name = document.getElementById("name").value.trim();
+      const platform = document.getElementById("platform").value.trim();
+      const price = Number(document.getElementById("price").value);
 
-    form.reset();
+      if (!name || !platform || !price) {
+        alert("Please fill in all fields.");
+        return;
+      }
 
-    loadServices();
+      await addDoc(collection(db, "services"), {
+        name,
+        platform,
+        price
+      });
 
-  } catch (error) {
-    alert(error.message);
-  }
-});
+      alert("Service added successfully!");
 
-// ===============================
-// DELETE SERVICE
-// ===============================
-window.deleteService = async (id) => {
+      form.reset();
 
-  if (!confirm("Delete this service?")) return;
+      loadServices();
 
-  try {
+    } catch (error) {
 
-    await deleteDoc(doc(db, "services", id));
+      alert(error.message);
 
-    loadServices();
+    }
 
-  } catch (error) {
-    alert(error.message);
-  }
-};
+  });
+
+}
 
 // ===============================
 // LOGOUT
 // ===============================
-logoutBtn.addEventListener("click", async () => {
+if (logoutBtn) {
 
-  try {
+  logoutBtn.addEventListener("click", async () => {
 
-    await signOut(auth);
+    try {
 
-    window.location.href = "login.html";
+      await signOut(auth);
 
-  } catch (error) {
+      window.location.href = "login.html";
 
-    alert(error.message);
+    } catch (error) {
 
-  }
+      alert(error.message);
 
-});
+    }
+
+  });
+
+}
 
 // ===============================
 // START
