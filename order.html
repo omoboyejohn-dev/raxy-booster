@@ -16,83 +16,74 @@
 
 <div class="dashboard">
 
-<header class="dashboard-header">
+    <header class="dashboard-header">
 
-<div>
+        <div>
+            <h1>🚀 RAXY BOOSTER</h1>
+            <p>Place Your Order</p>
+        </div>
 
-<h1>Place Order</h1>
+        <a href="dashboard.html" class="btn-primary">
+            ← Dashboard
+        </a>
 
-<p>Fill in your order details</p>
+    </header>
 
-</div>
+    <!-- Service Details -->
 
-<a href="services.html" class="btn-primary">← Back</a>
+    <section class="orders-card">
 
-</header>
+        <h2>Selected Service</h2>
 
-<div class="orders-card">
+        <p><strong>Service:</strong></p>
+        <p id="serviceName">Loading...</p>
 
-<form id="orderForm">
+        <p><strong>Platform:</strong></p>
+        <p id="servicePlatform">Loading...</p>
 
-<label>Platform</label>
+        <p><strong>Price:</strong></p>
+        <p id="servicePrice">₦0</p>
 
-<select required>
+    </section>
 
-<option>Instagram</option>
-<option>TikTok</option>
-<option>YouTube</option>
-<option>Facebook</option>
-<option>Telegram</option>
-<option>WhatsApp</option>
+    <!-- Order Form -->
 
-</select>
+    <section class="orders-card">
 
-<br><br>
+        <h2>Order Details</h2>
 
-<label>Service</label>
+        <form id="orderForm">
 
-<select required>
+            <label>Profile Link / Username</label>
 
-<option>Followers</option>
-<option>Likes</option>
-<option>Views</option>
-<option>Comments</option>
+            <input
+                type="text"
+                id="orderLink"
+                placeholder="https://instagram.com/username"
+                required>
 
-</select>
+            <label>Quantity</label>
 
-<br><br>
+            <input
+                type="number"
+                id="orderQuantity"
+                min="1"
+                placeholder="1000"
+                required>
 
-<label>Profile / Post Link</label>
+            <button
+                type="submit"
+                class="btn-primary">
+                Place Order
+            </button>
 
-<input
-type="url"
-placeholder="https://..."
-required>
+        </form>
 
-<br><br>
-
-<label>Quantity</label>
-
-<input
-type="number"
-placeholder="1000"
-required>
-
-<br><br>
-
-<button
-type="submit"
-class="btn-primary">
-
-Submit Order
-
-</button>
-
-</form>
+    </section>
 
 </div>
 
-</div>
+<script type="module" src="order.js"></script>
 
 </body>
 
