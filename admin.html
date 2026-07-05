@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>RAXY BOOSTER | Admin Panel</title>
 
     <link rel="stylesheet" href="style.css">
@@ -17,11 +18,14 @@
             <h1>🛠 RAXY BOOSTER ADMIN PANEL</h1>
             <p>Manage all boosting services from one place.</p>
 
-            <button id="logoutBtn">Logout</button>
+            <button id="logoutBtn" class="btn-primary">
+                Logout
+            </button>
         </header>
 
         <hr>
 
+        <!-- Add Service Form -->
         <section class="admin-form">
 
             <h2>Add New Service</h2>
@@ -31,7 +35,7 @@
                 <input
                     type="text"
                     id="name"
-                    placeholder="Service Name (e.g. Instagram Followers)"
+                    placeholder="Service Name (Example: Instagram Followers)"
                     required>
 
                 <input
@@ -44,9 +48,10 @@
                     type="number"
                     id="price"
                     placeholder="Price (₦)"
+                    min="1"
                     required>
 
-                <button type="submit">
+                <button type="submit" class="btn-primary">
                     Add Service
                 </button>
 
@@ -56,14 +61,13 @@
 
         <hr>
 
+        <!-- Services -->
         <section class="services-section">
 
             <h2>Available Services</h2>
 
             <div id="servicesList">
-
-                <p>No services yet...</p>
-
+                <p>Loading services...</p>
             </div>
 
         </section>
@@ -71,8 +75,9 @@
     </div>
 
     <!-- JavaScript -->
-    <script type="module" src="admin.js"></script>
+    <script type="module" src="firebase.js"></script>
     <script type="module" src="admin-guard.js"></script>
+    <script type="module" src="admin.js"></script>
 
 </body>
 
