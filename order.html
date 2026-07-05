@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Place Order | RAXY BOOSTER</title>
+<title>My Orders | RAXY BOOSTER</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -19,8 +19,8 @@
     <header class="dashboard-header">
 
         <div>
-            <h1>🚀 RAXY BOOSTER</h1>
-            <p>Place Your Order</p>
+            <h1>📋 My Orders</h1>
+            <p>Track all your orders</p>
         </div>
 
         <a href="dashboard.html" class="btn-primary">
@@ -29,61 +29,19 @@
 
     </header>
 
-    <!-- Service Details -->
-
     <section class="orders-card">
 
-        <h2>Selected Service</h2>
+        <div id="ordersList">
 
-        <p><strong>Service:</strong></p>
-        <p id="serviceName">Loading...</p>
+            <p>Loading orders...</p>
 
-        <p><strong>Platform:</strong></p>
-        <p id="servicePlatform">Loading...</p>
-
-        <p><strong>Price:</strong></p>
-        <p id="servicePrice">₦0</p>
-
-    </section>
-
-    <!-- Order Form -->
-
-    <section class="orders-card">
-
-        <h2>Order Details</h2>
-
-        <form id="orderForm">
-
-            <label>Profile Link / Username</label>
-
-            <input
-                type="text"
-                id="orderLink"
-                placeholder="https://instagram.com/username"
-                required>
-
-            <label>Quantity</label>
-
-            <input
-                type="number"
-                id="orderQuantity"
-                min="1"
-                placeholder="1000"
-                required>
-
-            <button
-                type="submit"
-                class="btn-primary">
-                Place Order
-            </button>
-
-        </form>
+        </div>
 
     </section>
 
 </div>
 
-<script type="module" src="order.js"></script>
+<script type="module" src="orders.js"></script>
 
 </body>
 
