@@ -20,7 +20,7 @@ const profileBtn = document.getElementById("profileBtn");
 
 const servicesList = document.getElementById("servicesList");
 
-// Protect dashboard
+// Protect Dashboard
 onAuthStateChanged(auth, (user) => {
 
     if (!user) {
@@ -28,96 +28,114 @@ onAuthStateChanged(auth, (user) => {
         return;
     }
 
-    email.textContent = user.email;
+    if (email) {
+        email.textContent = user.email;
+    }
+
+    loadServices();
 
 });
 
 // Logout
-logoutBtn.addEventListener("click", async () => {
+if (logoutBtn) {
+    logoutBtn.addEventListener("click", async () => {
 
-    await signOut(auth);
+        try {
+            await signOut(auth);
+            window.location.replace("login.html");
+        } catch (error) {
+            console.error(error);
+            alert("Logout failed.");
+        }
 
-    window.location.replace("login.html");
+    });
+}
 
-});
+// Dashboard Buttons
+if (fundWalletBtn) {
+    fundWalletBtn.addEventListener("click", () => {
+        window.location.href = "fund-wallet.html";
+    });
+}
 
-// Dashboard buttons
+if (placeOrderBtn) {
+    placeOrderBtn.addEventListener("click", () => {
+        window.location.href = "services.html";
+    });
+}
 
-fundWalletBtn.addEventListener("click", () => {
-    window.location.href = "fund-wallet.html";
-});
+if (orderHistoryBtn) {
+    orderHistoryBtn.addEventListener("click", () => {
+        window.location.href = "orders.html";
+    });
+}
 
-placeOrderBtn.addEventListener("click", () => {
-    window.location.href = "services.html";
-});
+if (profileBtn) {
+    profileBtn.addEventListener("click", () => {
+        window.location.href = "profile.html";
+    });
+}
 
-orderHistoryBtn.addEventListener("click", () => {
-    window.location.href = "orders.html";
-});
+// ==========================
+// Load Services
+// ==========================
 
-profileBtn.addEventListener("click", () => {
-    window.location.href = "profile.html";
-});
+function loadServices() {
 
+    if (!servicesList) return;
 
-// =============================
-// Load Services from Firestore
-// =============================
+    const servicesRef = collection(db, "services");
 
-const servicesRef = collection(db, "services");
+    onSnapshot(servicesRef, (snapshot) => {
 
-onSnapshot(servicesRef, (snapshot) => {
+        servicesList.innerHTML = "";
 
-    servicesList.innerHTML = "";
+        if (snapshot.empty) {
 
-    if (snapshot.empty) {
+            servicesList.innerHTML = `
+                <p style="text-align:center;">
+                    No services available.
+                </p>
+            `;
 
-        servicesList.innerHTML = `
-            <p style="text-align:center;">
-                No services available.
-            </p>
-        `;
+            return;
+        }
 
-        return;
-    }
+        snapshot.forEach((doc) => {
 
-    snapshot.forEach((doc) => {
+            const service = doc.data();
 
-        const service = doc.data();
+            const card = document.createElement("div");
+            card.className = "service-card";
 
-        servicesList.innerHTML += `
-
-            <div class="service-card">
-
+            card.innerHTML = `
                 <h3>${service.name}</h3>
 
                 <p><strong>Platform:</strong> ${service.platform}</p>
 
                 <p><strong>Price:</strong> ₦${service.price}</p>
 
-                <button
-                    class="btn-primary order-btn"
-                    data-id="${doc.id}">
+                <button class="btn-primary order-btn" data-id="${doc.id}">
                     Order Now
                 </button>
+            `;
 
-            </div>
+            card.querySelector(".order-btn").addEventListener("click", () => {
+                window.location.href = `order.html?id=${doc.id}`;
+            });
 
-        `;
-
-    });
-
-    document.querySelectorAll(".order-btn").forEach((button) => {
-
-        button.addEventListener("click", () => {
-
-            const serviceId = button.dataset.id;
-
-            window.location.href =
-                `order.html?id=${serviceId}`;
+            servicesList.appendChild(card);
 
         });
 
+    }, (error) => {
+        console.error(error);
+
+        servicesList.innerHTML = `
+            <p style="color:red;text-align:center;">
+                Failed to load services.
+            </p>
+        `;
     });
 
-});
+}
