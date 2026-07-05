@@ -8,7 +8,7 @@ import {
 // Redirect if already logged in
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    window.location.href = "services.html";
+    window.location.replace("dashboard.html");
   }
 });
 
@@ -27,17 +27,22 @@ if (form) {
       return;
     }
 
+    const button = form.querySelector("button");
+    button.disabled = true;
+    button.textContent = "Creating Account...";
+
     try {
       await createUserWithEmailAndPassword(auth, email, password);
 
-      alert("Account created successfully!");
-
-      window.location.href = "login.html";
+      // Redirect immediately
+      window.location.replace("dashboard.html");
 
     } catch (error) {
 
-      switch (error.code) {
+      button.disabled = false;
+      button.textContent = "Create Account";
 
+      switch (error.code) {
         case "auth/email-already-in-use":
           alert("This email is already registered.");
           break;
@@ -53,7 +58,6 @@ if (form) {
         default:
           alert(error.message);
       }
-
     }
   });
 }
