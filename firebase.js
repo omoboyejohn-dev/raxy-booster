@@ -2,19 +2,19 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebas
 import { getAuth } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 
-// Your Firebase config
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "XXXX",
-  appId: "XXXX"
+  apiKey: "AIzaSyC_-MVpov7-MZKxGegsqvrbB4_a3a0WGHM",
+  authDomain: "raxy-booster.firebaseapp.com",
+  projectId: "raxy-booster",
+  storageBucket: "raxy-booster.firebasestorage.app",
+  messagingSenderId: "629973087965",
+  appId: "1:629973087965:web:f274a36384968b814c0d34",
+  measurementId: "G-L520MSR5L5"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Export services
+// Export Firebase services
 export const auth = getAuth(app);
 export const db = getFirestore(app);
