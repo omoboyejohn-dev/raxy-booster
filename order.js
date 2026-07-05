@@ -12,9 +12,16 @@ import {
     onSnapshot
 } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 
+// ==============================
+// HTML Elements
+// ==============================
+
 const ordersList = document.getElementById("ordersList");
 
-// Protect page
+// ==============================
+// Protect Page
+// ==============================
+
 onAuthStateChanged(auth, (user) => {
 
     if (!user) {
@@ -26,17 +33,23 @@ onAuthStateChanged(auth, (user) => {
 
 });
 
+// ==============================
+// Load User Orders
+// ==============================
+
 function loadOrders(user) {
+
+    if (!ordersList) return;
 
     const ordersRef = collection(db, "orders");
 
-    const q = query(
+    const ordersQuery = query(
         ordersRef,
         where("userId", "==", user.uid),
         orderBy("createdAt", "desc")
     );
 
-    onSnapshot(q, (snapshot) => {
+    onSnapshot(ordersQuery, (snapshot) => {
 
         ordersList.innerHTML = "";
 
@@ -51,47 +64,44 @@ function loadOrders(user) {
             return;
         }
 
-        snapshot.forEach((doc) => {
+        snapshot.forEach((docSnap) => {
 
-            const order = doc.data();
+            const order = docSnap.data();
 
-            let date = "Just now";
+            const date = order.createdAt
+                ? order.createdAt.toDate().toLocaleString()
+                : "Just now";
 
-            if (order.createdAt) {
-                date = order.createdAt.toDate().toLocaleString();
-            }
+            const card = document.createElement("div");
+            card.className = "service-card";
 
-            ordersList.innerHTML += `
+            card.innerHTML = `
+                <h3>${order.serviceName || "Unknown Service"}</h3>
 
-                <div class="service-card">
+                <p><strong>Platform:</strong> ${order.platform || "-"}</p>
 
-                    <h3>${order.serviceName}</h3>
+                <p><strong>Quantity:</strong> ${order.quantity || 0}</p>
 
-                    <p><strong>Platform:</strong> ${order.platform}</p>
+                <p><strong>Price:</strong> ₦${order.price || 0}</p>
 
-                    <p><strong>Quantity:</strong> ${order.quantity}</p>
+                <p><strong>Link:</strong> ${order.link || "-"}</p>
 
-                    <p><strong>Price:</strong> ₦${order.price}</p>
+                <p><strong>Status:</strong> ${order.status || "Pending"}</p>
 
-                    <p><strong>Link:</strong> ${order.link}</p>
-
-                    <p><strong>Status:</strong> ${order.status}</p>
-
-                    <p><strong>Date:</strong> ${date}</p>
-
-                </div>
-
+                <p><strong>Date:</strong> ${date}</p>
             `;
+
+            ordersList.appendChild(card);
 
         });
 
     }, (error) => {
 
-        console.error(error);
+        console.error("Error loading orders:", error);
 
         ordersList.innerHTML = `
             <p style="color:red;text-align:center;">
-                Failed to load orders.
+                Failed to load your orders.
             </p>
         `;
 
