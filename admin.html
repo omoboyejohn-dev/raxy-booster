@@ -13,6 +13,7 @@
 
     <div class="container">
 
+        <!-- Header -->
         <header class="admin-header">
             <h1>🛠 RAXY BOOSTER ADMIN PANEL</h1>
             <p>Manage all boosting services from one place.</p>
@@ -36,6 +37,7 @@
                     id="name"
                     value="Instagram Followers"
                     placeholder="Service Name"
+                    autocomplete="off"
                     required>
 
                 <input
@@ -43,6 +45,7 @@
                     id="platform"
                     value="Instagram"
                     placeholder="Platform"
+                    autocomplete="off"
                     required>
 
                 <input
@@ -54,7 +57,7 @@
                     required>
 
                 <button type="submit" class="btn-primary">
-                    Add Service
+                    ➕ Add Service
                 </button>
 
             </form>
@@ -63,7 +66,7 @@
 
         <hr>
 
-        <!-- Services -->
+        <!-- Services List -->
         <section class="services-section">
 
             <h2>Available Services</h2>
@@ -77,7 +80,6 @@
     </div>
 
     <!-- JavaScript -->
-    <script type="module" src="firebase.js"></script>
     <script type="module" src="admin-guard.js"></script>
     <script type="module" src="admin.js"></script>
 
