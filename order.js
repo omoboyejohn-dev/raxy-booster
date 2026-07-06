@@ -97,11 +97,11 @@ function loadOrders(user) {
 
     }, (error) => {
 
-        console.error("Error loading orders:", error);
+        console.error(error);
 
         ordersList.innerHTML = `
-            <p style="color:red;text-align:center;">
-                Failed to load your orders.
+            <p style="color:red; text-align:center;">
+                ${error.message}
             </p>
         `;
 
