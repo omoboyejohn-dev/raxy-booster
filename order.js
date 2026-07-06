@@ -29,6 +29,8 @@ onAuthStateChanged(auth, (user) => {
         return;
     }
 
+    alert("User logged in: " + user.uid);
+
     loadOrders(user);
 
 });
@@ -38,6 +40,8 @@ onAuthStateChanged(auth, (user) => {
 // ==============================
 
 function loadOrders(user) {
+
+    alert("loadOrders() started");
 
     if (!ordersList) return;
 
@@ -77,17 +81,11 @@ function loadOrders(user) {
 
             card.innerHTML = `
                 <h3>${order.serviceName || "Unknown Service"}</h3>
-
                 <p><strong>Platform:</strong> ${order.platform || "-"}</p>
-
                 <p><strong>Quantity:</strong> ${order.quantity || 0}</p>
-
                 <p><strong>Price:</strong> ₦${order.price || 0}</p>
-
                 <p><strong>Link:</strong> ${order.link || "-"}</p>
-
                 <p><strong>Status:</strong> ${order.status || "Pending"}</p>
-
                 <p><strong>Date:</strong> ${date}</p>
             `;
 
@@ -97,10 +95,12 @@ function loadOrders(user) {
 
     }, (error) => {
 
+        alert("Firestore Error: " + error.message);
+
         console.error(error);
 
         ordersList.innerHTML = `
-            <p style="color:red; text-align:center;">
+            <p style="color:red;text-align:center;">
                 ${error.message}
             </p>
         `;
